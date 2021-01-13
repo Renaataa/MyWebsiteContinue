@@ -1,0 +1,17 @@
+<form>
+
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Logowanie</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <input class="form-control" type="text" placeholder="login" ng-model="ctrl.credentials.login" autofocus ng-change="ctrl.error = ''"/>
+        <br/>
+        <input class="form-control" type="password" placeholder="hasło" ng-model="ctrl.credentials.password" ng-change="ctrl.error = ''"/>
+    </div>
+    <div class="modal-footer">
+        <span style="float: left;" class="label label-warning" ng-if="ctrl.error" ng-bind="ctrl.error"></span>
+        <button class="btn btn-success fa fa-sign-in" type="submit" ng-click="ctrl.ok()"></button>
+        <button class="btn btn-danger fa fa-times" type="button" ng-click="ctrl.cancel()"></button>
+    </div>
+
+</form>

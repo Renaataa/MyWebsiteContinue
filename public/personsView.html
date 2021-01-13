@@ -1,0 +1,51 @@
+<div ng-if="ctrl.visible()">
+
+<div class="row">
+    <div class="col col-sm-12">
+        <table class="table table-stripped table-hover">
+            <tr ng-click="ctrl.selected = -1">
+                <th>&nbsp;</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Rok</th>
+                <th>Kwota</th>
+            </tr>
+            <tr ng-repeat="person in ctrl.persons" ng-click="ctrl.select($index)" ng-class="{ 'rowSelected': ctrl.selected == $index }">
+                <td ng-bind="$index == ctrl.selected ? '»' : ''"></td>
+                <td ng-bind="person.firstName"></td>
+                <td ng-bind="person.lastName"></td>
+                <td ng-bind="person.year"></td>
+                <td ng-bind="person.amount"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default" ng-if="ctrl.selected >= 0">
+    <div class="panel-heading">Zmień</div>
+    <div class="panel-body">
+        <form class="form form-inline">
+            <input class="form-control" type="text" ng-model="ctrl.person.firstName"/>
+            <input class="form-control" type="text" ng-model="ctrl.person.lastName"/>
+            <input class="form-control" type="number" ng-model="ctrl.person.year"/>
+            <button class="btn btn-success" ng-click="ctrl.updateData()">Zmień</button>
+            <button class="btn btn-danger" ng-click="ctrl.deleteData()">Usuń</button>
+        </form>
+    </div>
+</div>
+
+<br/><br/>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Dodaj</div>
+    <div class="panel-body">
+        <form class="form form-inline">
+            <input class="form-control" type="text" ng-model="ctrl.newPerson.firstName"/>
+            <input class="form-control" type="text" ng-model="ctrl.newPerson.lastName"/>
+            <input class="form-control" type="number" ng-model="ctrl.newPerson.year"/>
+            <button class="btn btn-primary" ng-click="ctrl.insertNewData()">Utwórz</button>
+        </form>
+    </div>
+</div>
+
+</div>

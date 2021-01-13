@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app="paionline">
+    <head>
+        <meta charset="utf-8"/>
+        <title>paionline</title>
+
+        <link rel="stylesheet" href="node_modules/bootstrap3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" href="css/index.css">
+
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/bootstrap3/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+
+        <div class="container" ng-controller="ContainerCtrl as ctrl">
+
+            <div uib-alert class="alert-animated" ng-class="ctrl._alert.type" close="ctrl.closeAlert()" dismiss-on-timeout="3000" ng-if="ctrl._alert.text">
+                {{ctrl._alert.text}}
+            </div>
+
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+    
+                    <div class="navbar-header">
+    
+                        <button type="button" class="navbar-toggle" ng-click="ctrl.isCollapsed = !ctrl.isCollapsed">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+    
+                    </div>
+    
+                    <div class="navbar-collapse" ng-class="ctrl.isCollapsed ? 'collapse' : 'in'">
+    
+                        <ul class="nav navbar-nav">
+                            <li ng-repeat="menuPos in ctrl.menu" ng-class="ctrl.navClass(menuPos.route)">
+                                <a href="#{{menuPos.route}}" ng-bind-html="menuPos.title"></a>
+                            </li>
+                        </ul>
+    
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a ng-bind-html="ctrl.loginIcon()" ng-click="ctrl.login()"></a></li>
+                        </ul>
+    
+                    </div>
+                </div>
+            </nav>
+    
+            <div ng-view></div>
+            
+        </div>
+
+        <script src="node_modules/angular/angular.min.js"></script>
+        <script src="node_modules/angular-route/angular-route.min.js"></script>
+        <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+        <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+        <script src="js/app.js"></script>
+        <script src="js/loginDialog.js"></script>
+        <script src="js/homeCtrl.js"></script>
+        <script src="js/exampleCtrl.js"></script>
+        <script src="js/personsCtrl.js"></script>
+        <script src="js/transfersCtrl.js"></script>
+        <script src="js/groupsCtrl.js"></script>
+    </body>
+</html>

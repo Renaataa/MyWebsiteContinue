@@ -1,0 +1,29 @@
+{
+  "name": "paionline",
+  "version": "1.0.0",
+  "description": "Projekt kursowy Programowania Aplikacji Internetowych",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "mongodump": "mongodump -d paionline",
+    "mongorestore": "mongorestore -d paionline dump/paionline",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mariusz.jarocki/paionline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/mariusz.jarocki/paionline/issues"
+  },
+  "homepage": "https://gitlab.com/mariusz.jarocki/paionline#readme",
+  "dependencies": {
+    "cookies": "^0.8.0",
+    "mongodb": "^3.6.3",
+    "node-static": "^0.7.11",
+    "query-string": "^6.13.8",
+    "uuid": "^8.3.1"
+  }
+}
