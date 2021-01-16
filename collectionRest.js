@@ -1,4 +1,5 @@
 var mongodb = require('mongodb')
+const db = require('./db')
 
 var lib = require('./lib')
 
@@ -19,15 +20,48 @@ module.exports = {
         switch(env.req.method) {
             case 'GET':
                 if(_id)
-                    collection.findOne({ _id: _id}, function(err, result) {
+                    collection.aggregate([
+                        {
+                            $match:{_id: _id}
+                        },
+                        {
+                            $lookup: {
+                                from: 'credentials',
+                                localField: '_id',
+                                foreignField: 'person_id',
+                                as: 'credentialsData'
+                            }
+                        },
+                        { $unwind: '$credentialsData' },
+                        { $addFields: { role: '$credentialsData.role' } },
+                        { $project: { credentialsData: false } }
+                    ]).toArray(function(err, result) {
                         if(err || !result)
                             lib.serveError(env.res, 404, 'object not found')
                         else
-                            lib.serveJson(env.res, result)
+                            lib.serveJson(env.res, result[0])
                     })
                 else {
-                    collection.find({}).toArray(function(err, result) {
-                        lib.serveJson(env.res, result)
+                    collection.aggregate([
+                        {
+                            $match:{}
+                        },
+                        {
+                            $lookup: {
+                                from: 'credentials',
+                                localField: '_id',
+                                foreignField: 'person_id',
+                                as: 'credentialsData'
+                            }
+                        },
+                        { $unwind: '$credentialsData' },
+                        { $addFields: { role: '$credentialsData.role' } },
+                        { $project: { credentialsData: false } }
+                    ]).toArray(function(err, result) {
+                        db.credentialsCollection.find({}).toArray(function(err, result2){
+                            lib.serveJson(env.res, result)
+                        })
+                        
                     })
                 }
                 break
@@ -35,11 +69,17 @@ module.exports = {
                 collection.insertOne(env.parsedPayload, function(err, result) {
                     if(err || !result.ops || !result.ops[0])
                         lib.serveError(env.res, 400, 'insert failed')
-                    else
+                    else{
+                        db.credentialsCollection.insertOne({
+                            person_id: result.ops[0]._id,
+                            password: "",
+                            role: result.ops[0].role
+                        })
                         lib.serveJson(env.res, result.ops[0])
+                    }      
                 })
                 break    
-            case 'PUT':
+            case 'PUT': 
                 if(_id) {
                     delete env.parsedPayload._id
                     collection.findOneAndUpdate({ _id: _id },
@@ -47,8 +87,16 @@ module.exports = {
                                                 { returnOriginal: false }, function(err, result) {
                         if(err || !result.value)
                             lib.serveError(env.res, 404, 'object not found')
-                        else
+                        else{
+                            db.credentialsCollection.findOneAndUpdate({ person_id: _id }, { $set: { role: result.value.role } },
+                                { returnOriginal: false }, function(err, result2) {
+                                if(err || !result2.value) {
+                                    lib.serveError(env.res, 400, 'no credentials')
+                                    return
+                                }
+                            })
                             lib.serveJson(env.res, result.value)
+                        }
                     })
                 } else
                     lib.serveError(env.res, 404, 'no object id')
@@ -58,8 +106,14 @@ module.exports = {
                     collection.findOneAndDelete({ _id: _id }, function(err, result) {
                         if(err || !result.value)
                             lib.serveError(env.res, 404, 'object not found')
-                        else
+                        else{
+                            try{
+                                db.credentialsCollection.findOneAndDelete({ person_id: _id })
+                            } catch(e){
+                                print(e)
+                            }
                             lib.serveJson(env.res, result.value)
+                        }
                     })
                 } else {
                     lib.serveError(env.res, 400, 'no object id')

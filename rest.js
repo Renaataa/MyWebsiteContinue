@@ -9,7 +9,7 @@ module.exports = {
     handle: function(env) {
         switch(env.parsedUrl.pathname) {
             case '/login':
-                login.handle(env)
+                login.handle(env) 
                 break
             case '/person':
                 if(env.sessionData.role == 1/* [1, 2].includes(env.sessionData.role) */) {

@@ -3,7 +3,7 @@ var mongodb = require('mongodb')
 var lib = require('./lib')
 var db = require('./db')
 
-module.exports = {
+module.exports = { 
 
     perform: function(env) {
 
@@ -58,7 +58,7 @@ module.exports = {
                 break
             case 'POST':
                 // id konta nadawcy: env.sessionData._id
-                // id konta odbiorcy: recipient
+                // id konta odbiorcy: recipient 
                 // kwota przelewu: env.parsedPayload.delta
                 db.personCollection.findOne({ _id: env.sessionData._id }, function(err, senderData) {
                     if(err || !senderData) {

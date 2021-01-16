@@ -5,6 +5,8 @@
         <table class="table table-stripped table-hover">
             <tr ng-click="ctrl.selected = -1">
                 <th>&nbsp;</th>
+                <th>Rola</th> 
+                <th>Email</th>
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Rok</th>
@@ -12,6 +14,8 @@
             </tr>
             <tr ng-repeat="person in ctrl.persons" ng-click="ctrl.select($index)" ng-class="{ 'rowSelected': ctrl.selected == $index }">
                 <td ng-bind="$index == ctrl.selected ? '»' : ''"></td>
+                <td ng-bind="person.role"></td>
+                <td ng-bind="person.email"></td>
                 <td ng-bind="person.firstName"></td>
                 <td ng-bind="person.lastName"></td>
                 <td ng-bind="person.year"></td>
@@ -25,6 +29,8 @@
     <div class="panel-heading">Zmień</div>
     <div class="panel-body">
         <form class="form form-inline">
+            <input class="form-control" type="number" ng-model="ctrl.person.role"/>
+            <input class="form-control" type="text" ng-model="ctrl.person.email"/>            
             <input class="form-control" type="text" ng-model="ctrl.person.firstName"/>
             <input class="form-control" type="text" ng-model="ctrl.person.lastName"/>
             <input class="form-control" type="number" ng-model="ctrl.person.year"/>
@@ -40,6 +46,8 @@
     <div class="panel-heading">Dodaj</div>
     <div class="panel-body">
         <form class="form form-inline">
+            <input class="form-control" type="number" ng-model="ctrl.newPerson.role"/>
+            <input class="form-control" type="text" ng-model="ctrl.newPerson.email"/>
             <input class="form-control" type="text" ng-model="ctrl.newPerson.firstName"/>
             <input class="form-control" type="text" ng-model="ctrl.newPerson.lastName"/>
             <input class="form-control" type="number" ng-model="ctrl.newPerson.year"/>

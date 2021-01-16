@@ -11,7 +11,6 @@ var rest = require('./rest')
 var httpServer = http.createServer()
 var fileServer = new static.Server(config.frontendDir)
 
-// sessions = { "1a3ae1d4-41e8-44da-a629-b04724d4813a": {}, ... }
 var sessions = {}
 
 httpServer.on('request', function(req, res) {

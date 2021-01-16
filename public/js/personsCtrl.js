@@ -8,7 +8,7 @@ app.controller('PersonsCtrl', [ '$http', 'routes', 'common', function($http, rou
         var route = routes.find(function(el) { return el.route == '/persons' })
         return route && route.roles.includes(common.sessionData.role)
     }
-    if(!ctrl.visible()) return
+    if(!ctrl.visible()) return 
 
     ctrl.selected = -1
 
@@ -16,6 +16,8 @@ app.controller('PersonsCtrl', [ '$http', 'routes', 'common', function($http, rou
     ctrl.history = []
 
     ctrl.newPerson = {
+        role: 2,
+        email: '',
         firstName: '',
         lastName: '',
         year: 1970
