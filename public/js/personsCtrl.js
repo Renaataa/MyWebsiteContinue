@@ -18,6 +18,7 @@ app.controller('PersonsCtrl', [ '$http', 'routes', 'common', function($http, rou
     ctrl.newPerson = {
         role: 2,
         email: '',
+        password: '',
         firstName: '',
         lastName: '',
         year: 1970
