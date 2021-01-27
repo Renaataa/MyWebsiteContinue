@@ -138,16 +138,24 @@ module.exports = {
                 break
             case 'DELETE':
                 if(_id) {
-                    collection.findOneAndDelete({ _id: _id }, function(err, result) {
-                        if(err || !result.value)
-                            lib.serveError(env.res, 404, 'object not found')
+                    db.historyCollection.find({$or: [{sender: _id}, {recipient: _id}]}).toArray(function(err, result1){
+                        if(err)
+                            lib.serveError(env.res, 400)
+                        else if (result1 && result1[0])
+                            lib.serveError(env.res, 400, 'first delete history of this person')
                         else{
-                            try{
-                                db.credentialsCollection.findOneAndDelete({ person_id: _id })
-                            } catch(e){
-                                print(e)
-                            }
-                            lib.serveJson(env.res, result.value)
+                            collection.findOneAndDelete({ _id: _id }, function(err, result) {
+                                if(err || !result.value)
+                                    lib.serveError(env.res, 404, 'object not found')
+                                else{
+                                    try{
+                                        db.credentialsCollection.findOneAndDelete({ person_id: _id })
+                                    } catch(e){
+                                        print(e)
+                                    }
+                                    lib.serveJson(env.res, result.value)
+                                }
+                            })
                         }
                     })
                 } else {

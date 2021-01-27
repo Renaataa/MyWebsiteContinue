@@ -1,4 +1,16 @@
-var app = angular.module('paionline', [ 'ngRoute', 'ngSanitize', 'ngAnimate', 'ui.bootstrap' ])
+var app = angular.module('paionline', [ 'ngRoute', 'ngSanitize', 'ngAnimate', 'ui.bootstrap' ]).directive('ngReallyClick', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('click', function() {
+                var message = attrs.ngReallyMessage;
+                if (message && confirm(message)) {
+                    scope.$apply(attrs.ngReallyClick);
+                }
+            });
+        }
+    }
+}]);
 
 // router menu
 app.constant('routes', [
