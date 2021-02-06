@@ -20,6 +20,7 @@ var db = module.exports = {
             db.historyCollection = conn.collection('history')
             db.groupCollection = conn.collection('groups')
             db.credentialsCollection = conn.collection('credentials')
+            db.financialDataCollection = conn.collection('financialData')
             nextTick()
         })
     }

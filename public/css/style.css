@@ -1,3 +1,11 @@
 #out{
-    margin-top: 30px;
+    margin-top: 10px;
+}
+
+#outChange{
+    margin-top: 0px;
+}
+
+#outAdd{
+    margin-top: 0px;
 }

@@ -2,7 +2,7 @@ var app = angular.module('paionline')
 
 app.controller('LoginDialog', [ '$http', '$uibModalInstance', 'common', 'options', function($http, $uibModalInstance, common, options) {
     console.log('Kontroler LoginCtrl startuje')
-    var ctrl = this
+    var ctrl = this 
 
     ctrl.sessionData = common.sessionData
     ctrl.credentials = { login: '', password: '' }
@@ -25,7 +25,7 @@ app.controller('LoginDialog', [ '$http', '$uibModalInstance', 'common', 'options
             }
         )
     }
-
+ 
     ctrl.cancel = function() {
         $uibModalInstance.dismiss('cancel')
     }

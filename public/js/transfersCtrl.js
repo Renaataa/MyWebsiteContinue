@@ -7,7 +7,7 @@ app.controller('TransfersCtrl', [ '$http', 'common', function($http, common) {
     ctrl.formatDateTime = common.formatDateTime
 
     ctrl.history = []
-
+ 
     ctrl.recipients = []
     ctrl.recipient = null
 
@@ -24,7 +24,7 @@ app.controller('TransfersCtrl', [ '$http', 'common', function($http, common) {
                 $http.delete('/transfer').then(
                     function(res) { ctrl.amount = res.data.amount },
                     function(err) {}
-                )
+                ) 
             },
             function(err) {}    
         )
@@ -32,10 +32,10 @@ app.controller('TransfersCtrl', [ '$http', 'common', function($http, common) {
 
     refreshHistory()
 
-    ctrl.doTransfer = function() {
+    ctrl.doTransfer = function() { 
         $http.post('/transfer?recipient=' + ctrl.recipient._id, ctrl.transfer).then(
             function(res) {
-                refreshHistory()
+                refreshHistory() 
             },
             function(err) {}
         )

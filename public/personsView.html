@@ -7,19 +7,19 @@
                 <th>&nbsp;</th>
                 <th>Rola</th> 
                 <th>Email</th>
-                <th>Haslo</th>
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Rok</th>
+                <th>Haslo</th>
             </tr>
             <tr ng-repeat="person in ctrl.persons" ng-click="ctrl.select($index)" ng-class="{ 'rowSelected': ctrl.selected == $index }">
                 <td ng-bind="$index == ctrl.selected ? '»' : ''"></td>
                 <td ng-bind="person.role"></td>
                 <td ng-bind="person.email"></td>
-                <td ng-bind="person.password"></td>
                 <td ng-bind="person.firstName"></td>
                 <td ng-bind="person.lastName"></td>
                 <td ng-bind="person.year"></td>
+                <td ng-bind="person.password"></td>
             </tr>
         </table>
     </div>
@@ -28,44 +28,36 @@
 <div class="panel panel-default" ng-if="ctrl.selected >= 0">
     <div class="panel-heading">Zmień</div>
     <div class="panel-body">
-        <form class="form form-inline">
-            <select class="form-control" type="number" ng-model="ctrl.person.role">
-                <option>2</option>
-                <option>1</option>
-                <option>3</option>
-            </select>
-            <input class="form-control" type="email" ng-model="ctrl.person.email"/> 
-            <input class="form-control" type="text" ng-model="ctrl.person.password"/>            
-            <input class="form-control" type="text" ng-model="ctrl.person.firstName"/>
-            <input class="form-control" type="text" ng-model="ctrl.person.lastName"/>
+        <form class="form form-inline"> 
+            <select class="form-control" ng-model="ctrl.person.role" ng-options="option for option in ctrl.options"></select>
+            <input class="form-control" type="email" ng-model="ctrl.person.email"/>            
+            <input class="form-control" type="text" ng-model="ctrl.person.firstName"/> 
+            <input class="form-control" type="text" ng-model="ctrl.person.lastName"/> 
             <input class="form-control" type="number" ng-model="ctrl.person.year"/>
+            <div class="form-control" id="outChange"></div>
+            <button class="btn btn-default" ng-if="ctrl.visiblePass" ng-click="ctrl.clicked=true; ctrl.generatePassword()">Zgeneruj haslo</button>
             <button class="btn btn-success" ng-click="ctrl.updateData()">Zmień</button>
             <button class="btn btn-danger" ng-really-message="Are you sure?" ng-really-click="ctrl.deleteData()">Usuń</button>
-        </form>
-            
+        </form>  
     </div>
 </div>
 
 <br/><br/>
 
 <div class="panel panel-default">
-    <div class="panel-heading">Dodaj</div>
+    <div class="panel-heading">Dodaj</div> 
     <div class="panel-body">
         <form class="form form-inline">
-            <select class="form-control" type="number" ng-model="ctrl.newPerson.role">
-                <option>2</option>
-                <option>1</option>
-                <option>3</option>
-            </select>
-            <input class="form-control" type="email" ng-model="ctrl.newPerson.email"/>
-            <input class="form-control" type="text" ng-model="ctrl.newPerson.password"/>
-            <input class="form-control" type="text" ng-model="ctrl.newPerson.firstName"/>
-            <input class="form-control" type="text" ng-model="ctrl.newPerson.lastName"/>
+            <select class="form-control" ng-model="ctrl.newPerson.role" ng-options="option for option in ctrl.options"></select>
+            <input class="form-control" type="email" placeholder="email" ng-model="ctrl.newPerson.email"/>
+            <input class="form-control" type="text" placeholder="Imie" ng-model="ctrl.newPerson.firstName"/>
+            <input class="form-control" type="text" placeholder="Nazwisko" ng-model="ctrl.newPerson.lastName"/>
             <input class="form-control" type="number" ng-model="ctrl.newPerson.year"/>
-          
+            <div class="form-control" ng-model="ctrl.newPerson.password" id="outAdd"></div>
+            <button class="btn btn-default" ng-click="ctrl.clicked=false; ctrl.generatePassword()">Zgeneruj haslo</button>
             <button class="btn btn-primary" ng-click="ctrl.insertNewData()">Utwórz</button>
         </form>
-    </div>
+    </div> 
 </div>
 
-</div>
+</div> 

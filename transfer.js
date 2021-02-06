@@ -2,11 +2,11 @@ var mongodb = require('mongodb')
 
 var lib = require('./lib')
 var db = require('./db')
-
+ 
 module.exports = { 
 
     perform: function(env) {
-
+ 
         var recipient = null
         try {
             recipient = mongodb.ObjectID(env.parsedUrl.query.recipient)
@@ -56,15 +56,15 @@ module.exports = {
                         lib.serveJson(env.res, result)
                 })
                 break
-            case 'POST':
+            case 'POST': 
                 // id konta nadawcy: env.sessionData._id
                 // id konta odbiorcy: recipient 
                 // kwota przelewu: env.parsedPayload.delta
-                db.personCollection.findOne({ _id: env.sessionData._id }, function(err, senderData) {
+                db.financialDataCollection.findOne({ person_id: env.sessionData._id }, function(err, senderData) {
                     if(err || !senderData) {
                         lib.serveError(env.res, 404, 'no sender')
                         return
-                    }
+                    } 
                     var delta = isNaN(env.parsedPayload.delta) ? 0 : env.parsedPayload.delta
                     if(delta <= 0) {
                         lib.serveError(env.res, 400, 'delta should be positive')
@@ -77,7 +77,7 @@ module.exports = {
 
                     senderData.amount -= delta
 
-                    db.personCollection.findOneAndUpdate({ _id: recipient }, { $inc: { amount: delta } },
+                    db.financialDataCollection.findOneAndUpdate({ person_id: recipient }, { $inc: { amount: delta } },
                         { returnOriginal: false }, function(err, result) {
                         if(err || !result.value) {
                             lib.serveError(env.res, 400, 'no recipient')
@@ -85,19 +85,19 @@ module.exports = {
                         }
                         var recipientData = result.value
 
-                        db.personCollection.findOneAndUpdate({ _id: senderData._id }, { $set: { amount: senderData.amount } })
+                        db.financialDataCollection.findOneAndUpdate({ person_id: senderData.person_id }, { $set: { amount: senderData.amount } })
 
                         var now = new Date().getTime()
                         db.historyCollection.insertOne({
                             date: now,
-                            sender: senderData._id,
+                            sender: senderData.person_id,
                             recipient: recipient,
                             delta: -delta,
                             amount_after: senderData.amount
                         })
                         db.historyCollection.insertOne({
                             date: now,
-                            sender: senderData._id,
+                            sender: senderData.person_id,
                             recipient: recipient,
                             delta: delta,
                             amount_after: recipientData.amount
@@ -108,10 +108,10 @@ module.exports = {
                 })
                 break
             case 'DELETE':
-                db.personCollection.findOne({ _id: env.sessionData._id }, function(err, senderData) {
+                db.financialDataCollection.findOne({ person_id: env.sessionData._id }, function(err, senderData) {
                     if(err || !senderData) {
                         lib.serveError(env.res, 404, 'no sender')
-                        return
+                        return     
                     }
                     lib.serveJson(env.res, { amount: senderData.amount })
                 })
@@ -122,7 +122,10 @@ module.exports = {
     },
 
     personList: function(env) {
-        db.personCollection.find({}).toArray(function(err, result) {
+        db.personCollection.aggregate([
+            {$match: {}},
+            { $project: { email: false, rola: false, year: false} }
+        ]).toArray(function(err, result) {
             lib.serveJson(env.res, result)
         })
     }

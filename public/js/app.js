@@ -6,9 +6,9 @@ var app = angular.module('paionline', [ 'ngRoute', 'ngSanitize', 'ngAnimate', 'u
                 var message = attrs.ngReallyMessage;
                 if (message && confirm(message)) {
                     scope.$apply(attrs.ngReallyClick);
-                }
-            });
-        }
+                } 
+            }); 
+        } 
     }
 }]);
 
@@ -18,7 +18,8 @@ app.constant('routes', [
 	{ route: '/example', templateUrl: 'exampleView.html', controller: 'ExampleCtrl', controllerAs: 'ctrl', menu: 'Przykład', roles: [ 999 ] },
 	{ route: '/persons', templateUrl: 'personsView.html', controller: 'PersonsCtrl', controllerAs: 'ctrl', menu: 'Osoby', roles: [ 1 ] },
 	{ route: '/transfers', templateUrl: 'transfersView.html', controller: 'TransfersCtrl', controllerAs: 'ctrl', menu: 'Przelewy', roles: [ 2 ] },
-	{ route: '/groups', templateUrl: 'groupsView.html', controller: 'GroupsCtrl', controllerAs: 'ctrl', menu: 'Grupy', roles: [ 999 ] }
+    //{ route: '/groups', templateUrl: 'groupsView.html', controller: 'GroupsCtrl', controllerAs: 'ctrl', menu: 'Grupy', roles: [ 999 ] },
+    { route: '/changePassword', templateUrl: 'changePassword.html', controller: 'ChangePasswordCtrl', controllerAs: 'ctrl', menu: 'Zmien haslo', roles: [ 1, 2 ] }
 ])
 
 // router installation
@@ -36,7 +37,7 @@ app.service('common', [ '$http', '$location', '$uibModal', 'routes', function($h
     common.sessionData = {}
     common.menu = []
 
-    common.rebuildMenu = function(nextTick = null) {
+    common.rebuildMenu = function(nextTick = null) { 
         $http.get('/login').then(
             function(res) {
                 common.sessionData.login = res.data.login
@@ -97,7 +98,7 @@ app.service('common', [ '$http', '$location', '$uibModal', 'routes', function($h
     }
 
 }])
-
+ 
 // confirmation dialog controller
 app.controller('ConfirmDialog', [ '$uibModalInstance', 'options', function($uibModalInstance, options) {
     var ctrl = this

@@ -15,13 +15,13 @@
         <td ng-bind="transfer.delta"></td>
         <td ng-bind="transfer.amount_after"></td>
     </tr>
-</table>
+</table> 
 
 <br/><br/>
 
 <div class="panel panel-default">
     <div class="panel-heading">Przelew</div>
-    <div class="panel-body">
+    <div class="panel-body"> 
         <form class="form form-inline">
             <select class="form-control" ng-model="ctrl.recipient" ng-options="option.firstName+' '+option.lastName for option in ctrl.recipients track by option._id">
             </select>

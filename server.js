@@ -34,7 +34,7 @@ httpServer.on('request', function(req, res) {
         session: session,
         sessionData: sessions[session]
     }        
-
+ 
     var payload = ''
     req.on('data', function(data) {
         payload += data

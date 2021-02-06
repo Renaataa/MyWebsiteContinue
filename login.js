@@ -10,12 +10,12 @@ var serveSessionData = function(env) {
     })
 }
 
-module.exports = {
-    handle: function(env) {
+module.exports = { 
+    handle: function(env) { 
         switch(env.req.method) {
             case 'GET':
                 serveSessionData(env)
-                break
+                break  
             case 'POST':
                 db.personCollection.findOne({ email: env.parsedPayload.login }, function(err, result1) {
                     if(err || !result1) {

@@ -4,7 +4,7 @@ var lib = module.exports = {
         res.writeHead(code, { "Content-Type": 'application/json' })
         var output = JSON.stringify(obj)
         res.write(output)
-        console.log(code, output)
+        console.log(code, output) 
         res.end()
     },
     
